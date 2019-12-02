@@ -14,4 +14,6 @@ public interface AccountRecordService {
     int insertSelective(AccountRecord record);
 
     int delAccountBy(Integer id);
+
+    int updateByPK(AccountRecord record);
 }

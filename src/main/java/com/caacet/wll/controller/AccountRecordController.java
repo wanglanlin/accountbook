@@ -29,13 +29,14 @@ public class AccountRecordController {
 
     @ApiOperation(value="获取对应年月的利润", notes=" by 王栏淋 ")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query",name = "month", value = "月份", dataType = "int"),
-            @ApiImplicitParam(paramType = "query",name = "year", value = "年份", dataType = "int")
+            @ApiImplicitParam(paramType = "query",name = "month", value = "月份,可不填，若不填则表示所有月份", dataType = "int"),
+            @ApiImplicitParam(paramType = "query",name = "year", value = "年份，可不填，若不填则表示所有年份", dataType = "int")
 
     })
     @RequestMapping(value = "profit",method = RequestMethod.GET)
     @ResponseBody
-    public String profitBy(@RequestParam(value = "month") Integer month, @RequestParam(value = "year") Integer year) {
+    public String profitBy(@RequestParam(value = "month",required = false) Integer month,
+                           @RequestParam(value = "year",required = false) Integer year) {
         BigDecimal profit = accountRecordService.profitBy(month,year);
         System.out.println(month+"月份的利润是"+profit);
         return year+"年"+month+"月 的利润是："+profit;
@@ -43,41 +44,43 @@ public class AccountRecordController {
 
     @ApiOperation(value="获取对应年月的总收入", notes=" by 王栏淋 ")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query",name = "month", value = "月份", dataType = "int"),
-            @ApiImplicitParam(paramType = "query",name = "year", value = "年份", dataType = "int")
+            @ApiImplicitParam(paramType = "query",name = "month", value = "月份,可不填，若不填则表示所有月份", dataType = "int"),
+            @ApiImplicitParam(paramType = "query",name = "year", value = "年份，可不填，若不填则表示所有年份", dataType = "int")
 
     })
     @RequestMapping(value = "total/income",method = RequestMethod.GET)
     @ResponseBody
-    public String totalIncomeBy(@RequestParam(value = "month") Integer month, @RequestParam(value = "year") Integer year) {
+    public String totalIncomeBy(@RequestParam(value = "month",required = false) Integer month,
+                                @RequestParam(value = "year",required = false) Integer year) {
         BigDecimal totalIncome = accountRecordService.totalIncomeBy(month,year);
         return year+"年"+month+"月 的总收入是："+totalIncome;
     }
 
     @ApiOperation(value="获取对应年月的总支出", notes=" by 王栏淋 ")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query",name = "month", value = "月份", dataType = "int"),
-            @ApiImplicitParam(paramType = "query",name = "year", value = "年份", dataType = "int")
+            @ApiImplicitParam(paramType = "query",name = "month", value = "月份,可不填，若不填则表示所有月份", dataType = "int"),
+            @ApiImplicitParam(paramType = "query",name = "year", value = "年份，可不填，若不填则表示所有年份", dataType = "int")
 
     })
     @RequestMapping(value = "total/expend",method = RequestMethod.GET)
     @ResponseBody
-    public String totalExpendBy(@RequestParam(value = "month") Integer month, @RequestParam(value = "year") Integer year) {
+    public String totalExpendBy(@RequestParam(value = "month",required = false) Integer month,
+                                @RequestParam(value = "year",required = false) Integer year) {
         BigDecimal totalExpend = accountRecordService.totalExpendBy(month,year);
         return year+"年"+month+"月 的总支出是："+totalExpend;
     }
 
     @ApiOperation(value="获取对应年月的总支出", notes=" by 王栏淋 ")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query",name = "month", value = "月份", dataType = "int"),
-            @ApiImplicitParam(paramType = "query",name = "year", value = "年份", dataType = "int")
+            @ApiImplicitParam(paramType = "query",name = "month", value = "月份,可不填，若不填则表示所有月份", dataType = "int"),
+            @ApiImplicitParam(paramType = "query",name = "year", value = "年份，可不填，若不填则表示所有年份", dataType = "int")
 
     })
     @RequestMapping(value = "all",method = RequestMethod.GET)
     @ResponseBody
-    public List<AccountRecord> allAccountBy(@RequestParam(value = "month") Integer month, @RequestParam(value = "year") Integer year) {
-        List<AccountRecord> accountRecords = accountRecordService.allAccountBy(month,year);
-        return accountRecords;
+    public List<AccountRecord> allAccountBy(@RequestParam(value = "month",required = false) Integer month,
+                                            @RequestParam(value = "year",required = false) Integer year) {
+        return accountRecordService.allAccountBy(month,year);
     }
 
     @ApiOperation(value="新增账单记录", notes=" by 王栏淋 ")
@@ -110,5 +113,24 @@ public class AccountRecordController {
         int result = accountRecordService.delAccountBy(id);
         return result>0?"删除成功":"删除失败";
     }
+
+    @ApiOperation(value="修改账单记录", notes=" by 王栏淋 ")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query",name = "id", value = "自动生成，无需输入", dataType = "int"),
+            @ApiImplicitParam(paramType = "query",name = "name", value = "账目名称", dataType = "String"),
+            @ApiImplicitParam(paramType = "query",name = "type", value = "账目类型，1：收入，-1：支出", dataType = "int"),
+            @ApiImplicitParam(paramType = "query",name = "content", value = "内容", dataType = "String"),
+            @ApiImplicitParam(paramType = "query",name = "note", value = "备注：如购物物品为钢笔、苹果", dataType = "String"),
+            @ApiImplicitParam(paramType = "query",name = "amount", value = "金额", dataType = "BigDecimal"),
+            @ApiImplicitParam(paramType = "query",name = "time", value = "日期", dataType = "Date")
+
+    })
+    @RequestMapping(value = "update",method = RequestMethod.POST)
+    @ResponseBody
+    public String updateAccountBy(AccountRecord record) {
+        int result = accountRecordService.updateByPK(record);
+        return result>0?"修改成功":"修改失败";
+    }
+
 
 }

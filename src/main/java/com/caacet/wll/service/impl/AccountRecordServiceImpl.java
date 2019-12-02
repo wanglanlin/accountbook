@@ -44,4 +44,9 @@ public class AccountRecordServiceImpl implements AccountRecordService {
     public int delAccountBy(Integer id) {
         return accountRecordMapper.deleteByPrimaryKey(id);
     }
+
+    @Override
+    public int updateByPK(AccountRecord record) {
+        return accountRecordMapper.updateByPrimaryKeySelective(record);
+    }
 }
