@@ -86,12 +86,12 @@ public class AccountRecordController {
     @ApiOperation(value="新增账单记录", notes=" by 王栏淋 ")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query",name = "id", value = "自动生成，无需输入", dataType = "int"),
-            @ApiImplicitParam(paramType = "query",name = "name", value = "账目名称", dataType = "String"),
-            @ApiImplicitParam(paramType = "query",name = "type", value = "账目类型，1：收入，-1：支出", dataType = "int"),
+            @ApiImplicitParam(paramType = "query",name = "name", value = "账目名称", required = true, dataType = "String"),
+            @ApiImplicitParam(paramType = "query",name = "type", value = "账目类型，1：收入，-1：支出", required = true, dataType = "int"),
             @ApiImplicitParam(paramType = "query",name = "content", value = "内容", dataType = "String"),
             @ApiImplicitParam(paramType = "query",name = "note", value = "备注：如购物物品为钢笔、苹果", dataType = "String"),
-            @ApiImplicitParam(paramType = "query",name = "amount", value = "金额", dataType = "BigDecimal"),
-            @ApiImplicitParam(paramType = "query",name = "time", value = "日期", dataType = "Date")
+            @ApiImplicitParam(paramType = "query",name = "amount", value = "金额", required = true, dataType = "BigDecimal"),
+            @ApiImplicitParam(paramType = "query",name = "time", value = "日期", required = true, dataType = "Date")
 
     })
     @RequestMapping(value = "",method = RequestMethod.POST)
@@ -104,7 +104,7 @@ public class AccountRecordController {
 
     @ApiOperation(value="根据主键id，删除记录", notes=" by 王栏淋 ")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query",name = "id", value = "主键", dataType = "int")
+            @ApiImplicitParam(paramType = "query",name = "id", value = "主键", required = true, dataType = "int")
 
     })
     @RequestMapping(value = "del",method = RequestMethod.GET)
@@ -116,7 +116,7 @@ public class AccountRecordController {
 
     @ApiOperation(value="修改账单记录", notes=" by 王栏淋 ")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query",name = "id", value = "自动生成，无需输入", dataType = "int"),
+            @ApiImplicitParam(paramType = "query",name = "id", value = "主键id", required = true, dataType = "int"),
             @ApiImplicitParam(paramType = "query",name = "name", value = "账目名称", dataType = "String"),
             @ApiImplicitParam(paramType = "query",name = "type", value = "账目类型，1：收入，-1：支出", dataType = "int"),
             @ApiImplicitParam(paramType = "query",name = "content", value = "内容", dataType = "String"),
