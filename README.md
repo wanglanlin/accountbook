@@ -1,0 +1,10 @@
+记账本
+需求:
+设计一个简易版的记账本（Accounts），记录的账目（AccountRecord）信息包括：
+账本名称AccountName
+账目类型AccountType：支出（Expend）或收入（Income）
+账目内容类型ContentType：如购物，旅行等
+账目备注Note：如购物物品为钢笔、苹果
+金额Amount
+记账时间RecordingTime
+记账本能够计算指定月的总收益，也能够计算指定月的总支出和总收入。同时，记账本还能够显示指定月份的所有账目信息。

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caacet.wll.dao.AccountRecordMapper">
+  <resultMap id="BaseResultMap" type="com.caacet.wll.entity.AccountRecord">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="type" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="content" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="note" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="time" javaType="java.util.Date" jdbcType="DATE" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, type, content, note,amount,time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from account_record
+    where name = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from account_record
+    where name = #{id}
+  </delete>
+  <insert id="insert" parameterType="com.caacet.wll.entity.AccountRecord">
+    insert into account_record (id, name, type, content, note,amount)
+    values (#{id}, #{name}, #{type}, #{content}, #{note}, #{amount})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caacet.wll.entity.AccountRecord">
+    insert into account_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="type != null">
+        #{type},
+      </if>
+      <if test="content != null">
+        #{content},
+      </if>
+      <if test="note != null">
+        #{note},
+      </if>
+      <if test="amount != null">
+        #{amount},
+      </if>
+      <if test="time != null">
+        #{time},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caacet.wll.entity.AccountRecord">
+    update account_record
+    <set>
+      <if test="name != null">
+        name = #{name},
+      </if>
+      <if test="type != null">
+        type = #{type},
+      </if>
+      <if test="content != null">
+        content = #{content},
+      </if>
+      <if test="note != null">
+        note = #{note},
+      </if>
+      <if test="amount != null">
+        amount = #{amount},
+      </if>
+      <if test="time != null">
+        time = #{time},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caacet.wll.entity.AccountRecord">
+    update account_record
+    set name = #{name},
+    type = #{type},
+    content = #{content},
+    note = #{note},
+    amount = #{amount},
+    time = #{time}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getProfitByMonth" resultType="java.math.BigDecimal">
+    SELECT SUM(amount*type) as profit
+    FROM account_record
+    <trim prefix="where " suffix=" " suffixOverrides="and">
+      <if test="year != null">
+        #{year}=YEAR(time) and
+      </if>
+      <if test="month != null">
+        #{month}=MONTH(time)
+      </if>
+    </trim>
+  </select>
+  <select id="getTotalIncomeByMonth" resultType="java.math.BigDecimal">
+    SELECT SUM(amount) as profit
+    FROM account_record
+    <trim prefix="where " suffix=" " suffixOverrides="and">
+      <if test="year != null">
+        #{year}=YEAR(time) and
+      </if>
+      <if test="month != null">
+        #{month}=MONTH(time)
+      </if>
+    </trim>
+    and type=1
+  </select>
+  <select id="getTotalSpendByMonth" resultType="java.math.BigDecimal">
+    SELECT SUM(amount) as profit
+    FROM account_record
+    <trim prefix="where " suffix=" " suffixOverrides="and">
+      <if test="year != null">
+        #{year}=YEAR(time) and
+      </if>
+      <if test="month != null">
+        #{month}=MONTH(time)
+      </if>
+    </trim>
+    and type=-1
+  </select>
+  <select id="getAllAmountByMonth" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM account_record
+    <trim prefix="where " suffix=" " suffixOverrides="and">
+      <if test="year != null">
+        #{year}=YEAR(time) and
+      </if>
+      <if test="month != null">
+        #{month}=MONTH(time)
+      </if>
+    </trim>
+  </select>
+</mapper>
